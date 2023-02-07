@@ -38,6 +38,10 @@ $hotels = [
     ],
 
 ];
+//Creo array delle chiavi di un elemento di $hotels
+
+$hotel_keys = str_replace('_', ' ', array_keys(array_change_key_case($hotels[0], CASE_UPPER)));
+
 
 ?>
 
@@ -60,30 +64,39 @@ $hotels = [
             <h1 class="text-center my-4">Hotels</h1>
         </header>
         <main>
-            <h2 class="mb-3">I nostri Hotels</h2>
-            <ul>
-                <?php foreach ($hotels as $hotel): ?>
-                    <li>
-                        <h3>
-                            <?= $hotel['name'] ?>
-                        </h3>
-                        <ul>
-                            <li>
+            <h2 class="mb-5">I nostri Hotels</h2>
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <?php foreach ($hotel_keys as $value): ?>
+                            <th scope="col">
+                                <?= $value ?>
+                            </th>
+                        <?php endforeach ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($hotels as $hotel): ?>
+                        <tr>
+                            <th scope="row">
+                                <?= $hotel['name'] ?>
+                            </th>
+                            <td>
                                 <?= $hotel['description'] ?>
-                            </li>
-                            <li>
+                            </td>
+                            <td>
                                 <?= $hotel['parking'] ?>
-                            </li>
-                            <li>
+                            </td>
+                            <td>
                                 <?= $hotel['vote'] ?>
-                            </li>
-                            <li>
+                            </td>
+                            <td>
                                 <?= $hotel['distance_to_center'] ?>
-                            </li>
-                        </ul>
-                    </li>
-                <?php endforeach ?>
-            </ul>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
         </main>
     </div>
 </body>
