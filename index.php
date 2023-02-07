@@ -56,6 +56,7 @@ $hotel_keys = str_replace('_', ' ', array_keys(array_change_key_case($hotels[0],
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 
 <body>
@@ -65,7 +66,7 @@ $hotel_keys = str_replace('_', ' ', array_keys(array_change_key_case($hotels[0],
         </header>
         <main>
             <h2 class="mb-5">I nostri Hotels</h2>
-            <table class="table table-dark table-striped">
+            <table class="table table-dark table-striped text-center">
                 <thead>
                     <tr>
                         <?php foreach ($hotel_keys as $value): ?>
@@ -85,7 +86,8 @@ $hotel_keys = str_replace('_', ' ', array_keys(array_change_key_case($hotels[0],
                                 <?= $hotel['description'] ?>
                             </td>
                             <td>
-                                <?= $hotel['parking'] ?>
+                                <i
+                                    class="bi <?= $hotel['parking'] ? 'bi-check-circle text-success' : 'bi-x-circle text-danger' ?>"></i>
                             </td>
                             <td>
                                 <?= $hotel['vote'] ?>
