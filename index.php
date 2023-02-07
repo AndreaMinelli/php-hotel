@@ -39,9 +39,37 @@ $hotels = [
 
 ];
 //Creo array delle chiavi di un elemento di $hotels
-
 $hotel_keys = str_replace('_', ' ', array_keys(array_change_key_case($hotels[0], CASE_UPPER)));
 
+$parcking_options = [
+    [
+        'value' => 'all',
+        'text' => 'All'
+    ],
+    [
+        'value' => 'true',
+        'text' => 'Con parcheggio'
+    ],
+    [
+        'value' => 'false',
+        'text' => 'Senza parcheggio'
+    ],
+];
+$parking = $_GET['parking'] ?? 'all';
+function hotels_filter($array)
+{
+    $parking = $_GET['parking'] ?? 'all';
+
+    if ($parking === 'all') {
+        return true;
+    } else if ($parking === 'true') {
+        return $array['parking'];
+    } else {
+        return !$array['parking'];
+    }
+}
+
+$filtered_parking = array_filter($hotels, "hotels_filter");
 
 ?>
 
@@ -65,7 +93,19 @@ $hotel_keys = str_replace('_', ' ', array_keys(array_change_key_case($hotels[0],
             <h1 class="text-center my-4">Hotels</h1>
         </header>
         <main>
-            <h2 class="mb-5">I nostri Hotels</h2>
+            <h2 class="mb-4">I nostri Hotels</h2>
+            <form action="" class="d-flex align-items-center">
+                <div class="mb-4">
+                    <label for="parking" class="mb-2">Filtra gli hotels per parcheggio:</label>
+                    <select class="form-select" id="parking" name='parking'>
+                        <?php foreach ($parcking_options as $option): ?>
+                            <option value="<?= $option['value'] ?>" <?php if ($parking === $option['value'])
+                                  echo ('selected') ?>><?= $option['text'] ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+                <button class="btn btn-primary ms-5">Filtra</button>
+            </form>
             <table class="table table-dark table-striped text-center">
                 <thead>
                     <tr>
@@ -77,7 +117,7 @@ $hotel_keys = str_replace('_', ' ', array_keys(array_change_key_case($hotels[0],
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($hotels as $hotel): ?>
+                    <?php foreach ($filtered_parking as $hotel): ?>
                         <tr>
                             <th scope="row">
                                 <?= $hotel['name'] ?>
@@ -93,7 +133,7 @@ $hotel_keys = str_replace('_', ' ', array_keys(array_change_key_case($hotels[0],
                                 <?= $hotel['vote'] ?>
                             </td>
                             <td>
-                                <?= $hotel['distance_to_center'] ?>
+                                <?= $hotel['distance_to_center'] ?> km
                             </td>
                         </tr>
                     <?php endforeach ?>
