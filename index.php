@@ -41,6 +41,7 @@ $hotels = [
 //Creo array delle chiavi di un elemento di $hotels
 $hotel_keys = str_replace('_', ' ', array_keys(array_change_key_case($hotels[0], CASE_UPPER)));
 
+//Array per generare le options
 $parcking_options = [
     [
         'value' => 'all',
@@ -55,8 +56,22 @@ $parcking_options = [
         'text' => 'Senza parcheggio'
     ],
 ];
+$hotels_vote = [1, 2, 3, 4, 5];
+
+
 $parking = $_GET['parking'] ?? 'all';
-function hotels_filter($array)
+$vote = intval($_GET['vote']) ?? 1;
+
+
+function vote_filter($array)
+{
+    $vote = intval($_GET['vote']) ?? 1;
+    return $array['vote'] >= $vote;
+}
+
+$vote_filtered_hotels = array_filter($hotels, "vote_filter");
+
+function parking_filter($array)
 {
     $parking = $_GET['parking'] ?? 'all';
 
@@ -69,7 +84,7 @@ function hotels_filter($array)
     }
 }
 
-$filtered_parking = array_filter($hotels, "hotels_filter");
+$filtered_parking = array_filter($vote_filtered_hotels, "parking_filter");
 
 ?>
 
@@ -101,6 +116,15 @@ $filtered_parking = array_filter($hotels, "hotels_filter");
                         <?php foreach ($parcking_options as $option): ?>
                             <option value="<?= $option['value'] ?>" <?php if ($parking === $option['value'])
                                   echo ('selected') ?>><?= $option['text'] ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+                <div class="mb-4 ms-5">
+                    <label for="vote" class="mb-2">Filtra gli hotels per voto:</label>
+                    <select class="form-select" id="vote" name='vote'>
+                        <?php foreach ($hotels_vote as $hotel_vote): ?>
+                            <option <?php if ($hotel_vote === $vote)
+                                echo ('selected') ?>><?= $hotel_vote ?></option>
                         <?php endforeach ?>
                     </select>
                 </div>
