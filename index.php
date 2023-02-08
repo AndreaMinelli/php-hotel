@@ -60,12 +60,12 @@ $hotels_vote = [1, 2, 3, 4, 5];
 
 
 $parking = $_GET['parking'] ?? 'all';
-$vote = intval($_GET['vote']) ?? 1;
+$vote = $_GET['vote'] ?? 1;
 
 
 function vote_filter($array)
 {
-    $vote = intval($_GET['vote']) ?? 1;
+    $vote = $_GET['vote'] ?? 1;
     return $array['vote'] >= $vote;
 }
 
@@ -123,7 +123,7 @@ $filtered_parking = array_filter($vote_filtered_hotels, "parking_filter");
                     <label for="vote" class="mb-2">Filtra gli hotels per voto:</label>
                     <select class="form-select" id="vote" name='vote'>
                         <?php foreach ($hotels_vote as $hotel_vote): ?>
-                            <option <?php if ($hotel_vote === $vote)
+                            <option <?php if ($hotel_vote === intval($vote))
                                 echo ('selected') ?>><?= $hotel_vote ?></option>
                         <?php endforeach ?>
                     </select>
